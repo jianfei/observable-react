@@ -80,13 +80,13 @@ this.setState$(Rx.Observable.of({
 <Button onClick={this.ObservableEvent('buttonClick')} />
 ```
 
-调用 `this.ObservableEvent` 会创建一个事件流: this.buttonClick$，在 `componentDidMount` 中可以使用：
+调用 `this.ObservableEvent` 会创建一个事件流: `this.buttonClick$`，在 `componentDidMount` 中可以使用：
 
 ```javascript
 this.buttonClick$.subscribe(([event, nativeEvent]) => alert('按钮被点击！'));
 ```
 
-由 this.ObservableEvent 创建的事件流默认发送组件的原生事件，你也可以为其添加参数来进行自定义：
+由 `this.ObservableEvent` 创建的事件流默认发送组件的原生事件，你也可以为其添加参数来进行自定义：
 
 - `this.ObservableEvent('buttonClick', (event) => event.target)` 转化组件原生事件
 - `this.ObservableEvent('buttonClick', someData)` 发送自定义数据
