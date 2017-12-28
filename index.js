@@ -140,21 +140,17 @@ function setupSetState(context) {
 
 function setupRequests(context) {
     context.createObservableRequest = (request, ...defaultArgs) => {
-        const request$ = new Rx.BehaviorSubject();
+        const request$ = new Rx.BehaviorSubject(defaultArgs);
+
         const result$ = request$
-            .switchMap((...args) => {
-                const result = args.length
-                    ? request(...args)
-                    : request(...defaultArgs);
+            .switchMap(args => {
+                const argsUsing = args.length ? args : defaultArgs;
 
-                return Rx.Observable.fromPromise(result);
-            });
+                return Rx.Observable.fromPromise(request(...argsUsing));
+            })
+            .share();
 
-        result$.request = (...args) => {
-            request$.next(...args);
-
-            return result$;
-        };
+        result$.request = (...args) => request$.next(args);
 
         return result$;
     };
