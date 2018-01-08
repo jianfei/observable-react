@@ -122,19 +122,21 @@ function isObservable(object) {
 }
 
 function setupSetState(context) {
-    context.setState$ = arg => {
-        if (isObservable(arg)) {
-            arg.subscribe(valuesFromObservable => {
-                if (typeof valuesFromObservable === 'object') {
-                    context.setState(prevState => Object.assign(prevState, valuesFromObservable));
-                }
-            });
-        }
-        else if (typeof arg === 'object') {
-            for (const key in arg) {
-                arg[key].subscribe(value => context.setState({ [key]: value }));
+    context.setState$ = (...args) => {
+        args.forEach(arg => {
+            if (isObservable(arg)) {
+                arg.subscribe(valuesFromObservable => {
+                    if (typeof valuesFromObservable === 'object') {
+                        context.setState(prevState => Object.assign(prevState, valuesFromObservable));
+                    }
+                });
             }
-        }
+            else if (typeof arg === 'object') {
+                for (const key in arg) {
+                    arg[key].subscribe(value => context.setState({ [key]: value }));
+                }
+            }
+        });
     };
 }
 
