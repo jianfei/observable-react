@@ -1,6 +1,6 @@
 import Rx from 'rxjs';
 
-export default function setupObservables(context) {
+module.exports = function setupObservables(context) {
     setupLifeCycles(context);
     setupEvents(context);
     setupSetState(context);
@@ -150,7 +150,11 @@ function setupRequests(context) {
             })
             .share();
 
-        result$.request = (...args) => request$.next(args);
+        result$.request = (...args) => {
+            request$.next(args);
+
+            return request$.skip(1);
+        }
 
         return result$;
     };

@@ -1,6 +1,6 @@
 {
   "name": "observable-react",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Use react with rxjs",
   "main": "dist/observable-react.min.js",
   "scripts": {
