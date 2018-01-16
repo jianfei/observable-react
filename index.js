@@ -52,7 +52,8 @@ function setupLifeCycles(context) {
         shouldComponentUpdate: (nextProps, nextState) => {
             context.shouldComponentUpdate$.next({ nextProps, nextState });
             return lifeCycles.shouldComponentUpdate
-                && lifeCycles.shouldComponentUpdate.call(context, nextProps, nextState);
+                && lifeCycles.shouldComponentUpdate.call(context, nextProps, nextState)
+                || true;
         },
 
         componentWillUpdate: (nextProps, nextState) => {
